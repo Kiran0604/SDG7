@@ -1,0 +1,75 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f3f4f6, #ccfbf1);
+}
+
+.card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.stylish-input-card {
+    background: linear-gradient(to bottom, #ffffff, #f0fdfa);
+    border: 2px solid #0d9488;
+    padding: 2rem;
+}
+
+.stylish-input {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.stylish-input:focus {
+    background-color: #ffffff;
+    border-color: #0d9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+}
+
+.modern-btn {
+    background: linear-gradient(to right, #0d9488, #4f46e5);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px; /* Fully rounded */
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
+
+.modern-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #0f766e, #4338ca);
+}
+
+.modern-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+header {
+    background: linear-gradient(to right, rgba(13, 148, 136, 0.1), rgba(79, 70, 229, 0.1));
+    padding: 1rem;
+    border-radius: 0.5rem;
+}

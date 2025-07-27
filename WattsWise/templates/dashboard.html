@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Appliance Input Section -->
+    <div class="card p-8 stylish-input-card">
+        <h2 class="text-xl font-semibold text-gray-800 mb-6">Add Appliance</h2>
+        <form id="appliance-form" class="space-y-6">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Appliance Name</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 stylish-input" placeholder="e.g., Refrigerator">
+            </div>
+            <div>
+                <label for="power" class="block text-sm font-medium text-gray-700">Power Usage (Watts)</label>
+                <input type="number" id="power" name="power" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 stylish-input" placeholder="e.g., 150">
+            </div>
+            <div>
+                <label for="hours" class="block text-sm font-medium text-gray-700">Daily Usage (Hours)</label>
+                <input type="number" id="hours" name="hours" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 stylish-input" placeholder="e.g., 8">
+            </div>
+            <button type="submit" class="w-full modern-btn">Add Appliance</button>
+        </form>
+    </div>
+    <!-- Real-Time Power Usage -->
+    <div class="card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Real-Time Power Usage</h2>
+        <div id="appliance-list" class="space-y-4"></div>
+        <p class="text-gray-500 text-sm mt-4">Total Power: <span id="total-power">0</span> Watts</p>
+    </div>
+    <!-- Energy Consumption Trend -->
+    <div class="card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Energy Consumption Trend</h2>
+        <canvas id="energy-chart" class="w-full h-64"></canvas>
+    </div>
+    <!-- Government Subsidies -->
+    <div class="card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Government Subsidies</h2>
+        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+            <li>Energy Star Rebate: Up to $100 for efficient appliances</li>
+            <li>Solar Panel Installation: 30% tax credit</li>
+            <li>Low-Income Energy Assistance: Up to $500 annually</li>
+        </ul>
+        <a href="#" class="text-teal-600 hover:underline mt-4 inline-block">Learn More</a>
+    </div>
+    <!-- Energy Trends & Carbon Footprint -->
+    <div class="card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Energy Trends & Impact</h2>
+        <p class="text-gray-600">Monthly Consumption: <span class="font-semibold">320 kWh</span></p>
+        <p class="text-gray-600 mt-2">Carbon Footprint: <span class="font-semibold">0.15 tons CO2</span></p>
+        <p class="text-gray-600 mt-2">Trend: <span class="text-green-600">5% decrease from last month</span></p>
+    </div>
+    <!-- Personalized Saving Tips -->
+    <div class="card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Saving Tips</h2>
+        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+            <li>Use LED bulbs to save 75% on lighting costs</li>
+            <li>Unplug electronics when not in use</li>
+            <li>Run full loads in washing machines</li>
+        </ul>
+    </div>
+    <!-- User Feedback -->
+    <div class="card p-6 md:col-span-2 lg:col-span-3">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">We Value Your Feedback</h2>
+        <form id="feedback-form" class="space-y-4">
+            <div>
+                <label for="feedback" class="block text-sm font-medium text-gray-700">Your Feedback</label>
+                <textarea id="feedback" name="feedback" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 stylish-input" placeholder="Share your thoughts..."></textarea>
+            </div>
+            <button type="submit" class="w-full modern-btn">Submit Feedback</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

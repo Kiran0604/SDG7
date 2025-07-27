@@ -1,0 +1,58 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-4">Energy Budgeting & Tips Calculator</h2>
+    <form method="post" action="/calculator" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Monthly Bill (₹):</label>
+            <input type="number" name="bill_amount" step="0.01" required class="w-full rounded border p-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Price per Unit (₹/kWh):</label>
+            <input type="number" name="price_per_unit" step="0.01" required class="w-full rounded border p-2">
+        </div>
+        <div id="appliance-list">
+            <label class="block text-sm font-medium text-gray-700">Appliances:</label>
+            <div class="flex space-x-2 mb-2">
+                <input type="text" name="appliance_name[]" placeholder="Name" class="rounded border p-2">
+                <input type="number" name="appliance_watt[]" placeholder="Watt" class="rounded border p-2">
+                <input type="number" name="appliance_hours[]" placeholder="Hours/day" class="rounded border p-2">
+            </div>
+        </div>
+        <button type="button" onclick="addAppliance()" class="bg-teal-500 text-white px-3 py-1 rounded">+ Add Appliance</button>
+        <div>
+            <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded">Calculate</button>
+        </div>
+    </form>
+    {% if results %}
+    <div class="mt-8">
+        <h3 class="text-xl font-semibold mb-2">Results</h3>
+        <p>Estimated Monthly Consumption: <b>{{ results.monthly_units }} kWh</b></p>
+        <ul class="list-disc ml-6">
+            {% for app in results.appliances %}
+            <li>{{ app.name }}: {{ app.monthly_kwh }} kWh/month ({{ app.percent }}%)
+                <ul class="list-disc ml-6 text-sm text-gray-600">
+                    {% for tip in app.tips %}
+                    <li>{{ tip }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        <p class="mt-2">Estimated Monthly Savings: ₹{{ results.saving_money }} (~{{ results.saving_kwh }} kWh)</p>
+        <p>Estimated Annual Savings: ₹{{ results.annual_saving_money }} (~{{ results.annual_saving_kwh }} kWh)</p>
+    </div>
+    {% endif %}
+</div>
+<script>
+function addAppliance() {
+    const list = document.getElementById('appliance-list');
+    const div = document.createElement('div');
+    div.className = 'flex space-x-2 mb-2';
+    div.innerHTML = `<input type="text" name="appliance_name[]" placeholder="Name" class="rounded border p-2">
+        <input type="number" name="appliance_watt[]" placeholder="Watt" class="rounded border p-2">
+        <input type="number" name="appliance_hours[]" placeholder="Hours/day" class="rounded border p-2">`;
+    list.appendChild(div);
+}
+</script>
+{% endblock %}

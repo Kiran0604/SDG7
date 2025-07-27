@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-4">Energy Consumption & Solar ROI Graphs</h2>
+    <canvas id="applianceBar" height="120"></canvas>
+    <canvas id="appliancePie" height="120" class="mt-8"></canvas>
+    <canvas id="savingsBar" height="120" class="mt-8"></canvas>
+    <canvas id="solarGauge" height="120" class="mt-8"></canvas>
+    <canvas id="solarArea" height="120" class="mt-8"></canvas>
+    <script>
+    // Data injected from Flask
+    const graphData = {{ graph_data|tojson|safe }};
+    // Appliance Bar Chart
+    new Chart(document.getElementById('applianceBar'), {
+        type: 'bar',
+        data: {
+            labels: graphData.appliance_names,
+            datasets: [{
+                label: 'Monthly kWh',
+                data: graphData.monthly_kwh,
+                backgroundColor: '#14b8a6',
+            }]
+        },
+        options: {indexAxis: 'y', plugins: {title: {display: true, text: 'Monthly Energy Consumption by Appliance'}}}
+    });
+    // Appliance Pie Chart
+    new Chart(document.getElementById('appliancePie'), {
+        type: 'pie',
+        data: {
+            labels: graphData.appliance_names,
+            datasets: [{
+                data: graphData.monthly_kwh,
+                backgroundColor: graphData.colors,
+            }]
+        },
+        options: {plugins: {title: {display: true, text: 'Appliance Contribution to Total Energy Consumption'}}}
+    });
+    // Savings Bar Chart
+    new Chart(document.getElementById('savingsBar'), {
+        type: 'bar',
+        data: {
+            labels: graphData.appliance_names,
+            datasets: [
+                {label: 'Monthly kWh', data: graphData.monthly_kwh, backgroundColor: '#14b8a6'},
+                {label: '10% Savings', data: graphData.reduced_kwh, backgroundColor: '#fbbf24'}
+            ]
+        },
+        options: {plugins: {title: {display: true, text: 'Energy Consumption vs. Savings (10% Reduction)'}},
+            scales: {x: {stacked: true}, y: {beginAtZero: true}}}
+    });
+    // Solar Gauge (using a doughnut as a gauge)
+    new Chart(document.getElementById('solarGauge'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Payback Years', 'Remaining'],
+            datasets: [{
+                data: [graphData.payback_years, Math.max(10-graphData.payback_years,0)],
+                backgroundColor: ['#22c55e', '#e5e7eb'],
+                borderWidth: 0
+            }]
+        },
+        options: {plugins: {title: {display: true, text: 'Solar Payback Period (Years)'}}, cutout: '80%'}
+    });
+    // Solar Area Chart
+    new Chart(document.getElementById('solarArea'), {
+        type: 'line',
+        data: {
+            labels: ['Total Consumption', 'Solar Generation'],
+            datasets: [{
+                label: 'Energy (kWh)',
+                data: [graphData.total_units, graphData.monthly_solar_gen],
+                fill: true,
+                backgroundColor: 'rgba(20,184,166,0.2)',
+                borderColor: '#14b8a6',
+                tension: 0.4
+            }]
+        },
+        options: {plugins: {title: {display: true, text: 'Monthly Energy Consumption vs. Solar Generation'}}}
+    });
+    </script>
+    <div class="mt-8">
+        <p>Total appliance estimated consumption: <b>{{ graph_data.total_appliance_kwh }} kWh</b></p>
+        <p>Total monthly consumption: <b>{{ graph_data.total_units }} kWh</b></p>
+        <p>Percentage of bill from appliances: <b>{{ graph_data.percent_appliance_bill }}%</b></p>
+        <p>Estimated monthly savings: <b>₹{{ graph_data.monthly_savings_money }}</b></p>
+        <p>Estimated yearly savings: <b>₹{{ graph_data.yearly_savings_money }}</b> (~{{ graph_data.total_savings_kwh_year }} kWh)</p>
+        <p>Estimated solar system size: <b>{{ graph_data.system_size_kw }} kW</b></p>
+        <p>Solar installation cost: <b>₹{{ graph_data.installation_cost }}</b></p>
+        <p>Annual maintenance cost: <b>₹{{ graph_data.maintenance_cost_per_year }}</b></p>
+        <p>Yearly solar generation: <b>{{ graph_data.yearly_solar_gen }} kWh</b></p>
+        <p>Yearly savings: <b>₹{{ graph_data.yearly_solar_savings }}</b></p>
+        <p>Solar payback period: <b>{{ graph_data.payback_years }} years</b></p>
+    </div>
+</div>
+{% endblock %}
